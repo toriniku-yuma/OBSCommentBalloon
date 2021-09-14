@@ -10,6 +10,9 @@ ws.onopen = function() {
 
 function commentGenerate(msg){
     commentArray.unshift(msg);
+    if (commentArray.length >= 10){
+        commentArray.pop();
+    }
     let result = document.createElement("div");
     commentArray.filter(comment =>{
         const createNode = document.createElement("p");

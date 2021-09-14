@@ -1,7 +1,8 @@
 const parser = require('fast-xml-parser');
 const he = require("he");
 const fs = require('fs');
-const xmlFile = 'C:\\Users\\jasin\\HTML5come\\CommentGenerator0.0.8a\\comment.xml';
+const settingData = require("./setting.json");
+const xmlFile = settingData.path;
 const watcher = require("chokidar").watch(xmlFile, {
     ignored: /[\/\\]\./, // 無視する対象
     persistent: true // 継続するか否か
@@ -41,7 +42,7 @@ const options = {
 
 // WebSocketのサーバの生成
 let ws = require('ws')
-let server = new ws.Server({ port: 23699 });
+let server = new ws.Server({ port: settingData.port });
 
 // 接続時に呼ばれる
 server.on('connection', ws => {

@@ -12,13 +12,14 @@ ws.onopen = function () {
     console.log("サーバーに接続できました")
     ws.send("クライアントからの接続がありました");
     ws.onmessage = function (msg) {
-        console.log(msg.data);
-        commentGenerate(msg.data);
+        const msgJSON = JSON.parse(msg.data);
+        console.log(msgJSON);
+        commentGenerate(msgJSON);
     }
 }
 
 function commentGenerate(msg) {
-    commentArray.unshift(msg);
+    commentArray.unshift(msg.attr.handle + "「" + msg.ComText + "」");
     if (commentArray.length >= 10) {
         commentArray.pop();
     }

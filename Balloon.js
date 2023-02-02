@@ -19,17 +19,30 @@ ws.onopen = function () {
 }
 
 function commentGenerate(msg) {
-    commentArray.unshift(msg.attr.handle + "「" + msg.ComText + "」");
+    commentArray.unshift([msg.attr.handle,"「" + msg.ComText + "」"]);
     if (commentArray.length >= 10) {
         commentArray.pop();
     }
     let result = document.createElement("div");
+    result.setAttribute("class","base")
     commentArray.filter(comment => {
-        const createNode = document.createElement("p");
-        const appendText = document.createTextNode(comment);
-        createNode.appendChild(appendText);
-        result.appendChild(createNode);
+        let commentGroup = document.createElement("p");
+        commentGroup.appendChild(nodeCreate(comment[0],"handle-name"));
+        commentGroup.appendChild(nodeCreate(comment[1],"commentText"));
+
+        result.appendChild(commentGroup);
     })
     document.body.innerHTML = "";
     document.body.appendChild(result);
+}
+
+function nodeCreate(textNode,className) {
+    let createNode = [];
+    createNode.push(document.createElement("span"));
+    createNode[0].setAttribute("class","stroke " + className);
+    createNode.push(document.createElement("span"));
+    createNode[1].setAttribute("class","fuchiue");
+    createNode[0].appendChild(document.createTextNode(textNode));
+    createNode[0].appendChild(createNode[1]);
+    return createNode[0];
 }

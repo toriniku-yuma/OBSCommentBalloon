@@ -10,7 +10,7 @@ const watcher = require("chokidar").watch(xmlFile, {
 let xml;
 let doc;
 let docLength;
-let wsGlobal;
+let wsGlobal = [];
 
 const options = {
     attributeNamePrefix : "",
@@ -54,6 +54,7 @@ JSはシングルスレッドのため、同期状態で複数クライアント
 追記：非同期同期ではなく、wsGlobal変数が上書きされることが原因かと思われます
 対策としては、wsGlobalを配列にし、filterで繰り返し処理を行うことで回避出来るかなと思っております
 
+追記2：修正しました
 */
 
 let ws = require('ws')
@@ -61,7 +62,7 @@ let server = new ws.Server({ port: settingData.port });
 
 // 接続時に呼ばれる
 server.on('connection', ws => {
-    wsGlobal = ws;
+    wsGlobal.push(ws);
     console.log("start");
 
     watcher.on("change", function (path) {
@@ -77,6 +78,9 @@ server.on('connection', ws => {
 
     // 切断時に呼ばれる
     ws.on('close', () => {
+        wsGlobal = wsGlobal.filter(wsLocal => {
+            return wsLocal.readyState === 1;
+        });
         console.log('close');
     });
 });
@@ -94,7 +98,9 @@ function wsSend(come) {
             return;
         }
         console.log(docText[key].ComText);
-        wsGlobal.send(JSON.stringify(docText[key]));
+        wsGlobal.filter(wsLocal => {
+            wsLocal.send(JSON.stringify(docText[key]));
+        });
     });
 
     docLength = docText.length;

@@ -1,0 +1,14 @@
+body{
+  opacity: 1.0;
+}
+.stroke-shadow{
+  text-shadow    : 
+       2px  2px 1px #003366,
+      -2px  2px 1px #003366,
+       2px -2px 1px #003366,
+      -2px -2px 1px #003366,
+       2px  0px 1px #003366,
+       0px  2px 1px #003366,
+      -2px  0px 1px #003366,
+       0px -2px 1px #003366;
+}

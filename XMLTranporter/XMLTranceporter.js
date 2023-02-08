@@ -31,9 +31,9 @@ const options = {
 };
 (async () => {
     try {
-        xml = await fs.promises.readFile(xmlFile, "utf-8");
-        doc = parser.parse(xml, options);
-        docLength = doc.log.comment.length;
+        await fs.promises.writeFile(xmlFile,
+            "\<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<log>\n</log>")
+        docLength = 0;
 
     } catch (err) {
         console.log(err);

@@ -12,25 +12,11 @@ type Msg = {
 }
 
 function App() {
-  const [commentArray,setCommentArray] = useState<Msg[]>([]);
-  const [keyCount,setKeyCount] = useState(0);
+  const [commentArray,setCommentArray] = useState<(Msg|number|any)[]>([]);
   const socketRef = useRef<ReconnectingWebSocket>();
+  let keyCounter = 0;
 
   useEffect(()=>{
-    if (configData.debugComment){
-      setInterval(()=>{
-        setCommentArray((commentArray)=>{
-          const newCommentArray = commentArray.filter((comment,index) => index<configData.viewCount);
-          return [{
-            "attr":{
-              "handle":"テストさん"
-            },
-            "ComText":"テストテストテストテストテストテストテストテスト"
-          },...newCommentArray]
-        })
-      },1000)
-    }
-
     const websocket = new ReconnectingWebSocket("ws://localhost:" + configData.port);
     socketRef.current = websocket;
 
@@ -38,20 +24,25 @@ function App() {
       if (configData.isScroll === "top"){
         setCommentArray((commentArray) => {
           const newCommentArray = commentArray.filter((comment,index) => index<configData.viewCount);
-          return [JSON.parse(e.data),...newCommentArray]
+          keyCounter = keyCounter + 1;
+          return [[JSON.parse(e.data),keyCounter,0],...newCommentArray]
         });
       }else if(configData.isScroll === "bottom"){
         setCommentArray((commentArray) => {
           const newCommentArray:Msg[] = [];
+          let commentLength;
           commentArray.forEach((value,index) => {
+            keyCounter = keyCounter + 1;
             if(index>=configData.viewCount){
               newCommentArray.shift();
               newCommentArray.push(value);
+              commentLength = commentArray.length -1;
             }else{
-              newCommentArray.push(value)
+              newCommentArray.push(value);
+              commentLength = commentArray.length;
             }            
           });
-          return [...newCommentArray,JSON.parse(e.data)]
+          return [...newCommentArray,[JSON.parse(e.data),keyCounter,commentLength]]
         }); 
       }else{
         console.error("error")
@@ -69,12 +60,12 @@ function App() {
     <div className="App">
       <div className='m-10'>test</div>
       {commentArray.map((value,index)=>{
-        ()=>setKeyCount(keyCount + 1)
           return(
             <Comment
             index={index}
-            value={value}
-            key={keyCount}/>
+            value={value[0]}
+            animScroll={value[2]}
+            key={value[1]}/>
           )
       })}
     </div>

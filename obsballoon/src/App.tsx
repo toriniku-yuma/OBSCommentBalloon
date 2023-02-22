@@ -1,52 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import configData from './config';
 import "./index.css";
-import Comment from './Comment';
-
-type Msg = {
-  attr:{
-      handle:string
-  }
-  ComText:string
-}
+import configData from "./config.json"
+import CommentArray from './CommentArray';
+import BalloonArray from './BalloonArray';
+import { Msg } from './type';
 
 function App() {
-  const [commentArray,setCommentArray] = useState<(Msg|number|any)[]>([]);
+  const [commentArray,setCommentArray] = useState<[Msg, number][]>([]);
+  const [keyCount,setkeyCount] = useState(0);
   const socketRef = useRef<ReconnectingWebSocket>();
-  let keyCounter = 0;
 
   useEffect(()=>{
     const websocket = new ReconnectingWebSocket("ws://localhost:" + configData.port);
     socketRef.current = websocket;
 
     const onMessage = (e:MessageEvent<string>)=>{
-      if (configData.isScroll === "top"){
+      setkeyCount((keyCount) => {
         setCommentArray((commentArray) => {
-          const newCommentArray = commentArray.filter((comment,index) => index<configData.viewCount);
-          keyCounter = keyCounter + 1;
-          return [[JSON.parse(e.data),keyCounter,0],...newCommentArray]
-        });
-      }else if(configData.isScroll === "bottom"){
-        setCommentArray((commentArray) => {
-          const newCommentArray:Msg[] = [];
-          let commentLength;
-          commentArray.forEach((value,index) => {
-            keyCounter = keyCounter + 1;
-            if(index>=configData.viewCount){
-              newCommentArray.shift();
-              newCommentArray.push(value);
-              commentLength = commentArray.length -1;
-            }else{
-              newCommentArray.push(value);
-              commentLength = commentArray.length;
-            }            
-          });
-          return [...newCommentArray,[JSON.parse(e.data),keyCounter,commentLength]]
-        }); 
-      }else{
-        console.error("error")
-      }
+          return [[JSON.parse(e.data) as Msg, keyCount], ...commentArray.filter((value,index)=> index < configData.viewCount-1)];
+        })
+        //ここで5秒後に実行される関数を予約する
+        //setTimeout(関数, ミリ秒)
+        setTimeout(() => {
+          //5秒後にCommentArrayを更新する
+          setCommentArray((commentArray) => {
+            //現在のCommentArrayから、今回のメッセージで追加されたコメントのkeyCountを探して来てそれをfilterで取り除いた新しいCommentArrayをsetする
+            return commentArray.filter((value) => value[1] !== keyCount)
+          })
+        }, 10000)
+        return keyCount + 1;
+      });
     }
     websocket.addEventListener("message",onMessage)
 
@@ -57,17 +41,12 @@ function App() {
   },[])
 
   return (
-    <div className="App">
-      <div className='m-10'>test</div>
-      {commentArray.map((value,index)=>{
-          return(
-            <Comment
-            index={index}
-            value={value[0]}
-            animScroll={value[2]}
-            key={value[1]}/>
-          )
-      })}
+    <div>
+        {configData.isArrayComponent === "Comment"
+          ?<CommentArray message={commentArray}/>
+          :configData.isArrayComponent === "Balloon"
+          ?<BalloonArray message={commentArray}/>
+          :<div>error</div>}
     </div>
   );
 }

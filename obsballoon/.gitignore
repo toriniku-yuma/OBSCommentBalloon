@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#私用のファイル
+*.lnk
+*.zip
+Balloonfutaba.tsx

@@ -50,14 +50,26 @@ const getNewSquares = (
   for (let i = 0; i < numSquaresX; i++) {
     for (let j = 0; j < numSquaresY; j++) {
       if (
-        avoidBox.width <= 0 ||
-        avoidBox.height <= 0 ||
         !intersects(avoidBox, {
           x: i * squareSize,
           y: j * squareSize,
           width: squareSize,
           height: squareSize,
-        })
+        }) ||
+        !intersects(
+          {
+            x: 0,
+            y: 0,
+            width: windowSize[0],
+            height: windowSize[1],
+          },
+          {
+            x: i * squareSize,
+            y: j * squareSize,
+            width: squareSize,
+            height: squareSize,
+          }
+        )
       ) {
         newSquares.push({
           x: i * squareSize,
@@ -68,7 +80,7 @@ const getNewSquares = (
       }
     }
   }
-  return shuffle(newSquares);
+  return newSquares;
 };
 
 //This component prepares an array of squares to fill the screen, shuffles them, and holds them as a State. However, do not place the squares in the avoid box.
@@ -105,7 +117,7 @@ export const RandomGenProvider: React.FC<React.PropsWithChildren<Props>> = ({
     squares.current = getNewSquares(
       windowSize,
       avoidBox || { x: 0, y: 0, width: 0, height: 0 },
-      squareSize || 300
+      squareSize || 200
     );
   }
 
@@ -133,6 +145,13 @@ export const RandomGenProvider: React.FC<React.PropsWithChildren<Props>> = ({
   //this function will return a random point within a square
   //if the array is empty, it will be refilled and shuffled. React
   const getRandomPoint = () => {
+    if (squares.current.length === 0) {
+      squares.current = getNewSquares(
+        windowSize,
+        avoidBox || { x: 0, y: 0, width: 0, height: 0 },
+        squareSize || 300
+      );
+    }
     const square = squares.current.pop()!;
     const x = Math.random() * square.width + square.x;
     const y = Math.random() * square.height + square.y;

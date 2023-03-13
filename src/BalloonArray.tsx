@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Comment from './Comment';
 import { AnimatePresence } from 'framer-motion';
 import Balloon from './Balloon';
-import Balloonfutaba from './Balloonfutaba';
 import { Msg } from './type';
 import { RandomGenProvider } from './randomGen';
 
@@ -19,7 +18,7 @@ export default function BalloonArray(props:Props){
                 <AnimatePresence>
                 {props.message.map((value,index)=>{
                     return(
-                        <Balloonfutaba
+                        <Balloon
                         index={value[1]}
                         value={value[0]}
                         key={value[1]}

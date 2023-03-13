@@ -4,3 +4,5 @@ Balloonfutaba.tsx
 obsballoon/src/configFutaba.json
 dist/*
 *.lnk
+configFutaba.json
+node_modules/*

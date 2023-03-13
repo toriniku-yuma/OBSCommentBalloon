@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import configData from "./config.json";
 import Comment from './Comment';
 import { AnimatePresence } from 'framer-motion';
 import Balloon from './Balloon';

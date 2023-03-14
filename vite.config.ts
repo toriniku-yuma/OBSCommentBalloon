@@ -7,6 +7,11 @@ export default defineConfig({
     react()],
   base:"",
   build: {
-    minify: false
+    minify: false,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'index.js',
+      },
+    },
   }
 })

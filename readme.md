@@ -6,7 +6,7 @@ KILINBOX氏制作の[HTML5コメントジェネレータ](https://www.kilinbox.n
 - WebSocketでコメントを受信し、OBSの画面上へ表示を行う。
 - 従来のコメントジェネレータ同様、リスト形式で上から下へコメントを表示する。
 - コメントを[バーチャルキャスト](https://virtualcast.jp/)のようにフキダシでポップさせる。
-- フキダシを被らせたくない場所を選択出来る。
+- フキダシを被らせたくない場所を選択出来る。(現在は中央付近固定)
 
 などの機能があります。
 
@@ -90,6 +90,21 @@ balloonSVGArray:使用するフキダシ画像を/public/hukidashiの中から�
 また、CSSにはTailwindCSSというクラスに記述していくタイプのCSSのライブラリを使用しております。合わせてご利用ください。
 
 `npm run build`で開発モードにして頂き、URLをOBSのブラウザソースに入れるとより便利になると思います。
+
+# トラブルシューティング
+## コメントを表示してくれない場合
+MultiCommentViewerとコメントジェネレータ双方のWebSocketポートが正しいか確認してください（何も操作してなければ合っているはずです）
+
+OBSのバージョンなどを確認してください。古い場合は動かない可能性があります。
+
+それでも動かない場合はindex.htmlの中のコードを以下のように書き換えてください。
+
+```html
+<!-- before -->
+    <script type="module" crossorigin src="./index.js"></script>
+<!-- after -->
+    <script type="text/javascript" src="./index.js" defer></script>
+```
 
 # スペシャルサンクス
 tonimono

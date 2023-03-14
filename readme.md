@@ -23,7 +23,7 @@ KILINBOX氏制作の[HTML5コメントジェネレータ](https://www.kilinbox.n
 2. MultiCommentViewerのフォルダ内にあるpluginsフォルダに解凍したフォルダ内のWSComeGeneフォルダをドラッグ&ドロップ。
 
     棒読みちゃんの場合は、BouyomiChan.exeのあるフォルダ内に解凍したフォルダ内のBouyomiPluginフォルダの**中身**をドラッグ&ドロップ。
-3. OBSを起動し、ソース追加からブラウザを選択、解凍したフォルダ内のindex.htmlを選択し、画面サイズを配信画面のサイズと合わせる。
+3. OBSを起動し、ソース追加からブラウザを選択、ローカルファイルにチェックを入れた後に、解凍したフォルダ内のindex.htmlを選択し、画面サイズを配信画面のサイズと合わせる。
 4. MultiCommentViewerで接続を押せばコメントがOBS画面に流れ始めます。
 
 <br>
@@ -88,6 +88,8 @@ balloonSVGArray:使用するフキダシ画像を/public/hukidashiの中から�
 ですので、Comment.tsxを参考に好きなところを改変していただければ、いい感じのデザインになるかと思います。
 
 また、CSSにはTailwindCSSというクラスに記述していくタイプのCSSのライブラリを使用しております。合わせてご利用ください。
+
+`npm run build`で開発モードにして頂き、URLをOBSのブラウザソースに入れるとより便利になると思います。
 
 # スペシャルサンクス
 tonimono

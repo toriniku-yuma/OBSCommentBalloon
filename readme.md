@@ -74,15 +74,14 @@ isArrayComponent:内部での配列処理に使うコンポーネントを設定
 
 isComponent:どのタイプのコンポーネントを使うかを設定します。難しいことはさておき、
 
-    isArrayComponentがCommentの場合、Comment1は背景があり、Comment2が背景のないものになります。
-
-    isArrayComponentがBalloonの場合、現状は何を指定しても変わりません。適当にBalloonとかにしておいてください。
+- isArrayComponentがCommentの場合、Comment1は背景があり、Comment2が背景のないものになります。
+- isArrayComponentがBalloonの場合、現状は何を指定しても変わりません。適当にBalloonとかにしておいてください。
 
 isScroll:Commentコンポーネント使用時に、コメントが上から来るか下から来るかを設定します。上からの場合top、下からの場合bottomです。
 
 isAnim:Commentコンポーネント使用時に、コメントが右から来るか左から来るかを設定します。
 
-balloonSVGArray:使用するフキダシ画像を/public/hukidashiの中から指定します。多分SVGじゃなくても使えます
+balloonSVGArray:使用するフキダシ画像を/public/hukidashiの中から指定します。多分SVGじゃなくても使えます。
 
 ### レイアウトを自分でカスタマイズする方法（上級者向け）
 このコメントジェネレータはReactというフレームワークで動作しており、ReactにはJSXというHTMLのように記述できる仕組みが存在します。

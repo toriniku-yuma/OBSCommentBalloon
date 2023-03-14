@@ -1,12 +1,12 @@
 {
     "port":23699,
+    "viewType":"time",
     "viewCount":10,
     "viewTime":10000,
-    "viewType":"time",
+    "isArrayComponent":"Balloon",
+    "isComponent":"Balloon",
     "isScroll":"bottom",
     "isAnim":"right",
-    "isArrayComponent":"Balloon",
-    "isComponent":"Comment2",
     "ballonSVGArray":[
         "e0724_1yellow.svg",
         "e0724_1magenta.svg",

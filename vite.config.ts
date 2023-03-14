@@ -7,6 +7,6 @@ export default defineConfig({
     react()],
   base:"",
   build: {
-    minify:false
+    minify: false
   }
 })

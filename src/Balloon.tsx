@@ -40,7 +40,7 @@ export default function Balloon(props:Props){
                     zIndex:props.index,
                     backgroundImage:`url("./hukidashi/${SVGIndex}")`
                 }}
-                className={`bg-center bg-no-repeat w-[24rem] h-[18rem] text-xl p-5 flex flex-col justify-center text-center absolute text-white`}
+                className={`bg-center bg-no-repeat w-[35rem] h-[29rem] text-4xl p-5 flex flex-col justify-center text-center absolute text-white`}
                 >
                     <div style={{transform:`scale(${isTurning},1)`}}>
                         <div className="font-bold">{ComText(props.value.ComText)}</div>
